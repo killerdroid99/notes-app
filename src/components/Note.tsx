@@ -1,7 +1,7 @@
 interface NoteProps {
   title: string
   description?: string
-  priority?: "high" | "low" | "medium"
+  priority?: "high" | "low" | "medium" | string
 }
 
 function Note({ title, description, priority }: NoteProps) {

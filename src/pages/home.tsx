@@ -4,12 +4,14 @@ import Head from "next/head"
 import AddNoteForm from "../components/AddNoteForm"
 import Navbar from "../components/Navbar"
 import Note from "../components/Note"
+import { trpc } from "../utils/trpc"
 
 const SignUp: NextPage = () => {
   const { data: session } = useSession()
+  const notes = trpc.useQuery(["notes.get-notes"])
 
   return (
-    <div className="h-screen bg-primary bg-fixed text-white grid place-items-center overflow-y-auto">
+    <div className="h-screen bg-primary bg-fixed text-white flex flex-col items-center overflow-y-auto">
       <Navbar />
       <Head>
         <title>Notes App | Home</title>
@@ -27,40 +29,9 @@ const SignUp: NextPage = () => {
             <h1 className="text-4xl font-qc font-extrabold" id="top">
               Your notes
             </h1>
-            <Note title="dlasd" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
-            <Note title="dlasd" />
-            <Note title="dlasd" priority="high" />
-            <Note title="dlasd" priority="medium" />
+            {notes.data?.map((note) => (
+              <Note title={note.title} key={note.id} priority={note.priority} />
+            ))}
           </div>
         </>
       ) : (
