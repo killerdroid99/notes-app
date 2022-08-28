@@ -9,6 +9,9 @@ export const notesRouter = createRouter()
         orderBy: {
           createdAt: "desc",
         },
+        where: {
+          userId: ctx.session?.user?.id,
+        },
       })
       return notes
     },

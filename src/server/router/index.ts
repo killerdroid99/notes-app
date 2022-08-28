@@ -4,7 +4,7 @@ import superjson from "superjson"
 
 import { exampleRouter } from "./example"
 import { protectedExampleRouter } from "./protected-example-router"
-import { notesRouter } from "./add-note"
+import { notesRouter } from "./notes"
 
 export const appRouter = createRouter()
   .transformer(superjson)
