@@ -27,19 +27,21 @@ function Navbar() {
       {session && (
         <div className="space-x-4 flex items-center">
           <div className="flex items-center space-x-1">
-            <Image
-              src={session.user?.image}
-              alt={session.user?.name}
-              width={25}
-              height={25}
-              priority
-              className="rounded-full select-none"
-            />
+            {session.user?.image && (
+              <Image
+                src={session.user?.image}
+                alt={session.user?.name}
+                width={25}
+                height={25}
+                priority
+                className="rounded-full select-none"
+              />
+            )}
             <span
               className="text-accent text-sm font-bold"
               title={session.user?.name}
             >
-              {session.user?.name?.slice(0, 8)}...
+              {session.user?.name}
             </span>
           </div>
           <button
