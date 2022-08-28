@@ -36,6 +36,7 @@ function AddNoteForm() {
               <input
                 type="text"
                 id={titleId}
+                value={input.title}
                 onChange={(e) => setinput({ ...input, title: e.target.value })}
                 className="outline-none bottom-1 border-neutral-500 bg-neutral-800 p-1 focus-visible:ring-1 ring-green-500"
               />
@@ -47,6 +48,7 @@ function AddNoteForm() {
               <select
                 name="priority"
                 id={priorityId}
+                value={input.priority}
                 onChange={(e) =>
                   setinput({ ...input, priority: e.target.value })
                 }
@@ -64,6 +66,7 @@ function AddNoteForm() {
               </label>
               <textarea
                 id={descId}
+                value={input.description}
                 className="outline-none bottom-1 border-neutral-500 bg-neutral-800 p-1 focus-visible:ring-1 ring-green-500"
                 onChange={(e) =>
                   setinput({ ...input, description: e.target.value })
@@ -83,6 +86,11 @@ function AddNoteForm() {
                   {
                     onSuccess() {
                       qc.invalidateQueries(["notes.get-notes"])
+                      setinput({
+                        title: "",
+                        description: "",
+                        priority: "",
+                      })
                     },
                   }
                 )

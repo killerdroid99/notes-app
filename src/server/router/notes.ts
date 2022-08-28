@@ -54,7 +54,7 @@ export const notesRouter = createRouter()
       })
     },
   })
-  .mutation("delete-post", {
+  .mutation("delete-note", {
     input: z.object({
       id: z.string(),
     }),
