@@ -50,7 +50,28 @@ export const notesRouter = createRouter()
 
       return new trpc.TRPCError({
         code: "FORBIDDEN",
-        message: "You need to login to add notes",
+        message: "You need to login to perform this operation",
+      })
+    },
+  })
+  .mutation("delete-post", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      if (ctx.session?.user) {
+        const x_note = await ctx.prisma.notes.delete({
+          where: {
+            id: input.id,
+          },
+        })
+
+        return { msg: " note deleted", x_note }
+      }
+
+      return new trpc.TRPCError({
+        code: "FORBIDDEN",
+        message: "You need to login to perform this operation",
       })
     },
   })
