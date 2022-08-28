@@ -19,12 +19,17 @@ const SignUp: NextPage = () => {
       {session ? (
         <>
           <AddNoteForm />
-          <div className="pt-20 flex flex-col w-[80%] gap-8 items-center justify-center">
+          <div className="pt-20 pb-8 flex flex-col w-[80%] gap-8 items-center justify-center">
             <h1 className="text-4xl font-qc font-extrabold" id="top">
               Your notes
             </h1>
             {notes.data?.map((note) => (
-              <Note title={note.title} key={note.id} priority={note.priority} />
+              <Note
+                title={note.title}
+                key={note.id}
+                priority={note.priority}
+                description={note?.description}
+              />
             ))}
           </div>
         </>

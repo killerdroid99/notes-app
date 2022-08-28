@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 .Note {
-  @apply p-4 w-full h-full max-w-xl relative overflow-hidden bg-zinc-900;
+  @apply p-4 w-full h-auto max-w-xl relative bg-zinc-900;
   box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25),
     0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
 }

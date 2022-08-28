@@ -1,5 +1,3 @@
-import PreviousMap from "postcss/lib/previous-map"
-import { title } from "process"
 import { useId, useState } from "react"
 import { useQueryClient } from "react-query"
 import { trpc } from "../utils/trpc"
@@ -27,7 +25,7 @@ function AddNoteForm() {
       {!minimize && (
         <>
           <div
-            className="absolute top-3 right-3 rounded-full bg-neutral-700 w-6 h-2 cursor-pointer"
+            className="absolute top-3 right-3 rounded-full bg-neutral-700 w-6 h-2 cursor-pointer hover:bg-accent"
             onClick={() => setMinimize(true)}
           />
           <form className="space-y-5 p-2 z-10">
