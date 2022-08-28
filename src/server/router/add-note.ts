@@ -1,11 +1,15 @@
 import { createRouter } from "./context"
 import { z } from "zod"
-import { resolve } from "path"
+import * as trpc from "@trpc/server"
 
 export const notesRouter = createRouter()
   .query("get-notes", {
     async resolve({ ctx }) {
-      const notes = await ctx.prisma.notes.findMany()
+      const notes = await ctx.prisma.notes.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
       return notes
     },
   })
@@ -21,5 +25,29 @@ export const notesRouter = createRouter()
       })
 
       return note
+    },
+  })
+  .mutation("add-note", {
+    input: z.object({
+      title: z.string(),
+      description: z.string(),
+      priority: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      if (ctx.session?.user) {
+        const new_note = await prisma?.notes.create({
+          data: {
+            ...input,
+            userId: ctx.session.user.id,
+          },
+        })
+
+        return { msg: "new note added", new_note }
+      }
+
+      return new trpc.TRPCError({
+        code: "FORBIDDEN",
+        message: "You need to login to add notes",
+      })
     },
   })

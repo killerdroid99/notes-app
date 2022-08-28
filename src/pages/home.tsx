@@ -18,12 +18,6 @@ const SignUp: NextPage = () => {
       </Head>
       {session ? (
         <>
-          {/* <a
-            className="fixed z-10 right-[5vw] lg:right-[20vw] bottom-4"
-            href="#top"
-          >
-            Back to top
-          </a> */}
           <AddNoteForm />
           <div className="pt-20 flex flex-col w-[80%] gap-8 items-center justify-center">
             <h1 className="text-4xl font-qc font-extrabold" id="top">
@@ -35,7 +29,9 @@ const SignUp: NextPage = () => {
           </div>
         </>
       ) : (
-        <span>You are not logged in log in to add some notes</span>
+        <span className="mt-40 text-lg font-mono capitalize tracking-wider font-bold">
+          📝 You are not logged in, log in to add some notes 📝
+        </span>
       )}
     </div>
   )
