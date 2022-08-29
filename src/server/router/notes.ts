@@ -80,3 +80,38 @@ export const notesRouter = createRouter()
       })
     },
   })
+  .mutation("update-note", {
+    input: z.object({
+      id: z.string(),
+      title: z
+        .string()
+        .max(50, "Max length for title is 50 characters!")
+        .min(3, "Min length for title is 3 characters!"),
+      description: z
+        .string()
+        .max(256, "Max length for description is 256 characters!"),
+      priority: z.string().min(1, "Select priority!"),
+    }),
+    async resolve({ ctx, input }) {
+      if (ctx.session?.user) {
+        const updated_note = await prisma?.notes.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            title: input.title,
+            description: input.description,
+            priority: input.priority,
+            userId: ctx.session.user.id,
+          },
+        })
+
+        return { msg: "note updated", updated_note }
+      }
+
+      return new trpc.TRPCError({
+        code: "FORBIDDEN",
+        message: "You need to login to perform this operation",
+      })
+    },
+  })
