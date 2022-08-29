@@ -19,6 +19,25 @@ const SignUp: NextPage = () => {
         <Navbar />
         <Head>
           <title>Notes App | Home</title>
+          <meta name="description" content="A simple notes app" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+          />
+          <link rel="manifest" href="/site.webmanifest" />
         </Head>
         {notes.isLoading ? (
           <p className="mt-40 text-sm font-mono capitalize tracking-wider font-bold animate-bounce">

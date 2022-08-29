@@ -7,7 +7,7 @@ function AddNoteForm() {
   const descId = useId()
   const priorityId = useId()
   const [minimize, setMinimize] = useState(true)
-  const { mutate, error } = trpc.useMutation(["notes.add-note"], {
+  const { mutate, error, isLoading } = trpc.useMutation(["notes.add-note"], {
     onSuccess() {
       qc.invalidateQueries(["notes.get-notes"])
       setinput({
@@ -102,7 +102,7 @@ function AddNoteForm() {
               />
             </div>
             <button
-              className="bg-blue-700 hover:bg-blue-900 font-qc p-1 font-semibold text-white w-full active:translate-y-[2px] shadow-sm shadow-black"
+              className="bg-blue-700 hover:bg-blue-900 font-qc p-1 font-semibold text-white w-full active:translate-y-[2px] shadow-xs shadow-black h-8"
               type="button"
               onPointerDown={() => {
                 mutate({
@@ -112,7 +112,20 @@ function AddNoteForm() {
                 })
               }}
             >
-              Add Note
+              {isLoading ? (
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5 animate-spin mx-auto"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"></path>
+                </svg>
+              ) : (
+                <>Add Note</>
+              )}
             </button>
             {error && (
               <p className="bg-red-400/20 p-1 text-center text-xs">
