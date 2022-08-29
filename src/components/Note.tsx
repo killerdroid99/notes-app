@@ -33,14 +33,14 @@ function Note({ Id, title, description, priority }: NoteProps) {
       </div>
       <div
         className={`absolute h-full block inset-0 w-1
-        ${
-          priority === "high"
-            ? "bg-amber-500"
-            : priority === "medium"
-            ? "bg-blue-500"
-            : "bg-green-500"
-        }    
-      `}
+          ${
+            priority === "high"
+              ? "bg-amber-500"
+              : priority === "medium"
+              ? "bg-blue-500"
+              : "bg-green-500"
+          }
+        `}
       />
       <h2 className="w-fit">{title}</h2>
       <button
