@@ -19,7 +19,7 @@ const SignUp: NextPage = () => {
       <Head>
         <title>Notes App | Home</title>
       </Head>
-      {notes.isLoading ? (
+      {notes.isLoading && session ? (
         <p className="mt-40 text-lg font-mono capitalize tracking-wider font-bold animate-bounce">
           🔃 loading notes...
         </p>
