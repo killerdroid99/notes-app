@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useQueryClient } from "react-query"
 import { trpc } from "../utils/trpc"
 import UpdateNoteForm from "./UpdateNoteForm"
 
@@ -10,12 +11,17 @@ interface NoteProps {
 }
 
 function Note({ Id, title, description, priority }: NoteProps) {
-  const { mutate } = trpc.useMutation(["notes.delete-note"])
+  const qc = useQueryClient()
+  const { mutate, isLoading } = trpc.useMutation(["notes.delete-note"], {
+    onSuccess() {
+      qc.invalidateQueries(["notes.get-notes"])
+    },
+  })
   const [edit, setEdit] = useState(false)
   const [info, setInfo] = useState(false)
   return (
-    <div className="Note p-4 w-full h-auto max-w-2xl bg-zinc-900 grid grid-cols-2 group relative">
-      <div className="absolute text-xxs font-bold bg-gray-50/10 py-px top-0 right-[36%] sm:right-[42%] w-fit rounded-bl-lg rounded-br-lg xl:opacity-0 group-hover:opacity-100 transition-opacity ease-in select-none">
+    <div className="Note p-4 w-full h-auto max-w-2xl bg-zinc-900 grid grid-cols-2 relative">
+      <div className="absolute text-xxs font-bold bg-gray-50/10 py-px top-0 right-[36%] sm:right-[42%] w-fit rounded-b-lg select-none">
         <span
           className="hover:text-red-400 cursor-pointer transition-colors ease-in px-2 border-r border-white border-collapse"
           onPointerDown={() => {
@@ -23,9 +29,12 @@ function Note({ Id, title, description, priority }: NoteProps) {
           }}
         >
           DELETE
+          {isLoading && <>DELETING..</>}
         </span>
         <span
-          className="hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse"
+          className={`hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse ${
+            edit && "text-amber-500"
+          }`}
           onPointerDown={() => setEdit(!edit)}
         >
           EDIT

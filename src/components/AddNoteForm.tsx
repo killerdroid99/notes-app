@@ -1,5 +1,4 @@
 import { useId, useState } from "react"
-import Draggable from "react-draggable"
 import { useQueryClient } from "react-query"
 import { trpc } from "../utils/trpc"
 
@@ -39,7 +38,10 @@ function AddNoteForm() {
             className="absolute top-3 right-3 rounded-full bg-neutral-700 w-6 h-2 cursor-pointer hover:bg-accent"
             onClick={() => setMinimize(true)}
           />
-          <form className="space-y-5 p-2 z-10">
+          <form
+            className="space-y-5 p-2 z-10"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <div className="flex flex-col space-y-1">
               <label
                 htmlFor={titleId}

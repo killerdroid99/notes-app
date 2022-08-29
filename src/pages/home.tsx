@@ -5,13 +5,10 @@ import AddNoteForm from "../components/AddNoteForm"
 import Navbar from "../components/Navbar"
 import Note from "../components/Note"
 import { trpc } from "../utils/trpc"
-import { useAutoAnimate } from "@formkit/auto-animate/react"
-import { LegacyRef } from "react"
 
 const SignUp: NextPage = () => {
   const { data: session } = useSession()
   const notes = trpc.useQuery(["notes.get-notes"])
-  const [animationParent] = useAutoAnimate()
 
   if (session) {
     return (
@@ -46,10 +43,7 @@ const SignUp: NextPage = () => {
         ) : (
           <>
             <AddNoteForm />
-            <div
-              className="pt-20 pb-8 flex flex-col w-[80%] gap-8 items-center justify-center"
-              ref={animationParent as LegacyRef<HTMLDivElement>}
-            >
+            <div className="pt-20 pb-8 flex flex-col w-[80%] gap-8 items-center justify-center">
               <h1 className="text-lg font-qc font-extrabold" id="top">
                 Your notes
               </h1>
