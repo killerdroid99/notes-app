@@ -12,7 +12,7 @@ function Note({ Id, title, description, priority }: NoteProps) {
   const { mutate } = trpc.useMutation(["notes.delete-note"])
   return (
     <div className="Note flex group relative">
-      <div className="absolute text-sm font-bold bg-gray-50/10 py-1 top-0 right-[42%] w-fit rounded-bl-lg rounded-br-lg opacity-0 group-hover:opacity-100 transition-opacity ease-in select-none">
+      <div className="absolute text-sm font-bold bg-gray-50/10 py-1 top-0 right-[42%] w-fit rounded-bl-lg rounded-br-lg xl:opacity-0 group-hover:opacity-100 transition-opacity ease-in select-none">
         <span
           className="hover:text-red-400 cursor-pointer transition-colors ease-in px-2 border-r border-white border-collapse"
           onPointerDown={() => {

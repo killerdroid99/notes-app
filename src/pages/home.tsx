@@ -42,6 +42,11 @@ const SignUp: NextPage = () => {
                 description={note?.description}
               />
             ))}
+            {!notes.data?.length && (
+              <p className="mt-40 text-lg font-mono capitalize tracking-wider font-bold">
+                No notes, click the `Add Note` button to add some
+              </p>
+            )}
           </div>
         </>
       ) : (

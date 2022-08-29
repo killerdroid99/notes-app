@@ -7,7 +7,17 @@ function AddNoteForm() {
   const descId = useId()
   const priorityId = useId()
   const [minimize, setMinimize] = useState(true)
-  const { mutate } = trpc.useMutation(["notes.add-note"])
+  const { mutate, error } = trpc.useMutation(["notes.add-note"], {
+    onSuccess() {
+      qc.invalidateQueries(["notes.get-notes"])
+      setinput({
+        title: "",
+        description: "",
+        priority: "",
+      })
+      setMinimize(true)
+    },
+  })
   const [input, setinput] = useState({
     title: "",
     description: "",
@@ -30,8 +40,9 @@ function AddNoteForm() {
           />
           <form className="space-y-5 p-2 z-10">
             <div className="flex flex-col space-y-1">
-              <label htmlFor={titleId} className="text-base">
+              <label htmlFor={titleId} className="text-base flex items-center">
                 Title
+                <span className="ml-1 text-red-700/80 text-xs">(required)</span>
               </label>
               <input
                 type="text"
@@ -42,8 +53,12 @@ function AddNoteForm() {
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label htmlFor={priorityId} className="text-base">
+              <label
+                htmlFor={priorityId}
+                className="text-base flex items-center"
+              >
                 Priority
+                <span className="ml-1 text-red-700/80 text-xs">(required)</span>
               </label>
               <select
                 name="priority"
@@ -61,8 +76,11 @@ function AddNoteForm() {
               </select>
             </div>
             <div className="flex flex-col space-y-1">
-              <label htmlFor={descId} className="text-base">
+              <label htmlFor={descId} className="text-base flex items-center">
                 Description
+                <span className="ml-1 text-neutral-500 text-xs">
+                  (optional)
+                </span>
               </label>
               <textarea
                 id={descId}
@@ -77,27 +95,20 @@ function AddNoteForm() {
               className="bg-blue-700 hover:bg-blue-900 font-qc p-1 font-semibold text-white w-full active:translate-y-[2px] shadow-sm shadow-black"
               type="button"
               onPointerDown={() => {
-                mutate(
-                  {
-                    title: input.title,
-                    description: input.description,
-                    priority: input.priority,
-                  },
-                  {
-                    onSuccess() {
-                      qc.invalidateQueries(["notes.get-notes"])
-                      setinput({
-                        title: "",
-                        description: "",
-                        priority: "",
-                      })
-                    },
-                  }
-                )
+                mutate({
+                  title: input.title,
+                  description: input.description,
+                  priority: input.priority,
+                })
               }}
             >
               Add Note
             </button>
+            {error && (
+              <p className="bg-red-400/20 p-1 font-bold text-sm">
+                {JSON.parse(error.message)[0].message}
+              </p>
+            )}
           </form>
         </>
       )}

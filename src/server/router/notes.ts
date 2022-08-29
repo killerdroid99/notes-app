@@ -32,9 +32,14 @@ export const notesRouter = createRouter()
   })
   .mutation("add-note", {
     input: z.object({
-      title: z.string(),
-      description: z.string(),
-      priority: z.string(),
+      title: z
+        .string()
+        .max(50, "Max length for title is 50 characters!")
+        .min(3, "Min length for title is 3 characters!"),
+      description: z
+        .string()
+        .max(256, "Max length for description is 256 characters!"),
+      priority: z.string().min(1, "Select priority!"),
     }),
     async resolve({ ctx, input }) {
       if (ctx.session?.user) {

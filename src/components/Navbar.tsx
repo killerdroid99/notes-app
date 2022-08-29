@@ -16,7 +16,7 @@ function Navbar() {
       {!session && (
         <div className="space-x-2">
           <button
-            className="bg-primary py-1 text-sm font-bold capitalize px-3 rounded-md hover:text-accent hover:bg-neutral-800 backdrop-blur-md transition-colors ease-in"
+            className="bg-primary py-1 sm:text-sm text-xs font-bold capitalize px-3 rounded-md hover:text-accent hover:bg-neutral-800 backdrop-blur-md transition-colors ease-in"
             onClick={() => signIn()}
           >
             SIGN IN
@@ -27,10 +27,10 @@ function Navbar() {
       {session && (
         <div className="space-x-4 flex items-center">
           <div className="flex items-center space-x-1">
-            {session.user?.image && (
+            {session.user && (
               <Image
-                src={session.user?.image}
-                alt={session.user?.name}
+                src={session.user?.image as string}
+                alt={session.user?.name as string}
                 width={25}
                 height={25}
                 priority
@@ -38,14 +38,14 @@ function Navbar() {
               />
             )}
             <span
-              className="text-accent text-sm font-bold"
-              title={session.user?.name}
+              className="text-accent sm:text-sm text-xs font-bold"
+              title={session.user?.name as string}
             >
               {session.user?.name}
             </span>
           </div>
           <button
-            className="bg-red-500 py-1 text-sm font-bold capitalize px-3 rounded-md hover:bg-red-400 backdrop-blur-md transition-colors ease-in"
+            className="bg-red-500 py-1 sm:text-sm text-xs font-bold capitalize px-3 rounded-md hover:bg-red-7 00 backdrop-blur-md transition-colors ease-in"
             onClick={() => signOut()}
           >
             SIGN OUT
