@@ -1,5 +1,7 @@
 import { Disclosure, Transition } from "@headlessui/react"
+import { useState } from "react"
 import { trpc } from "../utils/trpc"
+import UpdateNoteForm from "./UpdateNoteForm"
 
 interface NoteProps {
   Id: string
@@ -10,6 +12,7 @@ interface NoteProps {
 
 function Note({ Id, title, description, priority }: NoteProps) {
   const { mutate } = trpc.useMutation(["notes.delete-note"])
+  const [edit, setEdit] = useState(false)
   return (
     <div className="Note flex group relative">
       <div className="absolute text-sm font-bold bg-gray-50/10 py-1 top-0 right-[42%] w-fit rounded-bl-lg rounded-br-lg xl:opacity-0 group-hover:opacity-100 transition-opacity ease-in select-none">
@@ -21,7 +24,10 @@ function Note({ Id, title, description, priority }: NoteProps) {
         >
           DELETE
         </span>
-        <span className="hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse">
+        <span
+          className="hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse"
+          onPointerDown={() => setEdit(!edit)}
+        >
           EDIT
         </span>
       </div>
@@ -73,6 +79,14 @@ function Note({ Id, title, description, priority }: NoteProps) {
             </Disclosure.Panel>
           </Transition>
         </Disclosure>
+        <UpdateNoteForm
+          Id={Id}
+          old_title={title}
+          old_description={description ?? ""}
+          old_priority={priority as string}
+          visible={edit}
+          setVisible={setEdit}
+        />
       </div>
     </div>
   )
