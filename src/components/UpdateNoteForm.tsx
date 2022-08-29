@@ -25,11 +25,6 @@ function UpdateNoteForm({
   const { mutate, error } = trpc.useMutation(["notes.update-note"], {
     onSuccess() {
       qc.invalidateQueries(["notes.get-notes"])
-      // setinput({
-      //   title: "",
-      //   description: "",
-      //   priority: "",
-      // })
       setVisible(false)
     },
   })
@@ -43,11 +38,27 @@ function UpdateNoteForm({
   if (visible) {
     return (
       <div className="fixed z-10 left-[2vw] lg:left-[10vw] top-20 bg-zinc-900 p-2 bg-opacity-70 backdrop-blur-md ring-2 ring-primary">
+        <div
+          className="bg-red-500 hover:bg-red-600 w-fit rounded-sm absolute right-4 top-3 active:translate-y-px cursor-pointer"
+          onPointerDown={() => setVisible(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-5 h-5"
+          >
+            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+          </svg>
+        </div>
         <form className="space-y-5 p-2 z-10">
           <div className="flex flex-col space-y-1">
-            <label htmlFor={titleId} className="text-base flex items-center">
+            <label
+              htmlFor={titleId}
+              className="text-xs mb-1 font-bold flex items-center"
+            >
               Title
-              <span className="ml-1 text-red-700/80 text-xs">(required)</span>
+              <span className="ml-2 text-red-700/80 text-xxs">(required)</span>
             </label>
             <input
               type="text"
@@ -58,9 +69,12 @@ function UpdateNoteForm({
             />
           </div>
           <div className="flex flex-col space-y-1">
-            <label htmlFor={priorityId} className="text-base flex items-center">
+            <label
+              htmlFor={priorityId}
+              className="text-xs mb-1 font-bold flex items-center"
+            >
               Priority
-              <span className="ml-1 text-red-700/80 text-xs">(required)</span>
+              <span className="ml-2 text-red-700/80 text-xxs">(required)</span>
             </label>
             <select
               name="priority"
@@ -75,9 +89,12 @@ function UpdateNoteForm({
             </select>
           </div>
           <div className="flex flex-col space-y-1">
-            <label htmlFor={descId} className="text-base flex items-center">
+            <label
+              htmlFor={descId}
+              className="text-xs mb-1 font-bold flex items-center"
+            >
               Description
-              <span className="ml-1 text-neutral-500 text-xs">(optional)</span>
+              <span className="ml-2 text-neutral-500 text-xxs">(optional)</span>
             </label>
             <textarea
               id={descId}
@@ -89,7 +106,7 @@ function UpdateNoteForm({
             />
           </div>
           <button
-            className="bg-green-700 hover:bg-green-900 font-qc p-1 font-semibold text-white w-full active:translate-y-[2px] shadow-sm shadow-black"
+            className="bg-green-700 hover:bg-green-900 font-qc p-1 font-semibold text-white w-full active:translate-y-[2px] shadow-xs shadow-black"
             type="button"
             onPointerDown={() => {
               mutate({

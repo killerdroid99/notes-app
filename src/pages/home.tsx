@@ -13,47 +13,56 @@ const SignUp: NextPage = () => {
   const notes = trpc.useQuery(["notes.get-notes"])
   const [animationParent] = useAutoAnimate()
 
+  if (session) {
+    return (
+      <div className="h-screen bg-primary bg-fixed text-white flex flex-col items-center overflow-y-auto">
+        <Navbar />
+        <Head>
+          <title>Notes App | Home</title>
+        </Head>
+        {notes.isLoading ? (
+          <p className="mt-40 text-sm font-mono capitalize tracking-wider font-bold animate-bounce">
+            🔃 loading notes...
+          </p>
+        ) : (
+          <>
+            <AddNoteForm />
+            <div
+              className="pt-20 pb-8 flex flex-col w-[80%] gap-8 items-center justify-center"
+              ref={animationParent as LegacyRef<HTMLDivElement>}
+            >
+              <h1 className="text-lg font-qc font-extrabold" id="top">
+                Your notes
+              </h1>
+              {notes.data?.map((note) => (
+                <Note
+                  title={note.title}
+                  key={note.id}
+                  Id={note.id}
+                  priority={note.priority}
+                  description={note?.description}
+                />
+              ))}
+              {!notes.data?.length && (
+                <p className="mt-40 text-sm font-mono capitalize tracking-wider font-bold">
+                  No notes, click the `Add Note` button to add some
+                </p>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    )
+  }
   return (
     <div className="h-screen bg-primary bg-fixed text-white flex flex-col items-center overflow-y-auto">
       <Navbar />
       <Head>
         <title>Notes App | Home</title>
       </Head>
-      {notes.isLoading && session ? (
-        <p className="mt-40 text-lg font-mono capitalize tracking-wider font-bold animate-bounce">
-          🔃 loading notes...
-        </p>
-      ) : session ? (
-        <>
-          <AddNoteForm />
-          <div
-            className="pt-20 pb-8 flex flex-col w-[80%] gap-8 items-center justify-center"
-            ref={animationParent as LegacyRef<HTMLDivElement>}
-          >
-            <h1 className="text-4xl font-qc font-extrabold" id="top">
-              Your notes
-            </h1>
-            {notes.data?.map((note) => (
-              <Note
-                title={note.title}
-                key={note.id}
-                Id={note.id}
-                priority={note.priority}
-                description={note?.description}
-              />
-            ))}
-            {!notes.data?.length && (
-              <p className="mt-40 text-lg font-mono capitalize tracking-wider font-bold">
-                No notes, click the `Add Note` button to add some
-              </p>
-            )}
-          </div>
-        </>
-      ) : (
-        <span className="mt-40 text-lg font-mono capitalize tracking-wider font-bold">
-          📝 You are not logged in, log in to add some notes 📝
-        </span>
-      )}
+      <span className="mt-40 text-sm font-mono capitalize tracking-wider font-bold">
+        📝 You are not logged in, log in to add some notes 📝
+      </span>
     </div>
   )
 }

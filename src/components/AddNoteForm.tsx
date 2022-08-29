@@ -40,9 +40,14 @@ function AddNoteForm() {
           />
           <form className="space-y-5 p-2 z-10">
             <div className="flex flex-col space-y-1">
-              <label htmlFor={titleId} className="text-base flex items-center">
+              <label
+                htmlFor={titleId}
+                className="text-xs mb-1 font-bold flex items-center"
+              >
                 Title
-                <span className="ml-1 text-red-700/80 text-xs">(required)</span>
+                <span className="ml-2 text-red-700/80 text-xxs">
+                  (required)
+                </span>
               </label>
               <input
                 type="text"
@@ -55,10 +60,12 @@ function AddNoteForm() {
             <div className="flex flex-col space-y-1">
               <label
                 htmlFor={priorityId}
-                className="text-base flex items-center"
+                className="text-xs mb-1 font-bold flex items-center"
               >
                 Priority
-                <span className="ml-1 text-red-700/80 text-xs">(required)</span>
+                <span className="ml-2 text-red-700/80 text-xxs">
+                  (required)
+                </span>
               </label>
               <select
                 name="priority"
@@ -76,9 +83,12 @@ function AddNoteForm() {
               </select>
             </div>
             <div className="flex flex-col space-y-1">
-              <label htmlFor={descId} className="text-base flex items-center">
+              <label
+                htmlFor={descId}
+                className="text-xs mb-1 font-bold flex items-center"
+              >
                 Description
-                <span className="ml-1 text-neutral-500 text-xs">
+                <span className="ml-2 text-neutral-500 text-xxs">
                   (optional)
                 </span>
               </label>
@@ -105,7 +115,7 @@ function AddNoteForm() {
               Add Note
             </button>
             {error && (
-              <p className="bg-red-400/20 p-1 font-bold text-sm">
+              <p className="bg-red-400/20 p-1 text-center text-xs">
                 {JSON.parse(error.message)[0].message}
               </p>
             )}
