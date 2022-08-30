@@ -43,7 +43,7 @@ export const notesRouter = createRouter()
     }),
     async resolve({ ctx, input }) {
       if (ctx.session?.user) {
-        const new_note = await prisma?.notes.create({
+        const new_note = await ctx.prisma?.notes.create({
           data: {
             ...input,
             userId: ctx.session.user.id,
@@ -94,7 +94,7 @@ export const notesRouter = createRouter()
     }),
     async resolve({ ctx, input }) {
       if (ctx.session?.user) {
-        const updated_note = await prisma?.notes.update({
+        const updated_note = await ctx.prisma?.notes.update({
           where: {
             id: input.id,
           },
