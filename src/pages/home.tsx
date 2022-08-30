@@ -4,6 +4,7 @@ import Head from "next/head"
 import AddNoteForm from "../components/AddNoteForm"
 import Navbar from "../components/Navbar"
 import Note from "../components/Note"
+import { AnimatePresence } from "framer-motion"
 import { trpc } from "../utils/trpc"
 
 const SignUp: NextPage = () => {
@@ -47,15 +48,17 @@ const SignUp: NextPage = () => {
               <h1 className="text-lg font-qc font-extrabold" id="top">
                 Your notes
               </h1>
-              {notes.data?.map((note) => (
-                <Note
-                  title={note.title}
-                  key={note.id}
-                  Id={note.id}
-                  priority={note.priority}
-                  description={note?.description}
-                />
-              ))}
+              <AnimatePresence>
+                {notes.data?.map((note) => (
+                  <Note
+                    title={note.title}
+                    key={note.id}
+                    Id={note.id}
+                    priority={note.priority}
+                    description={note?.description}
+                  />
+                ))}
+              </AnimatePresence>
               {!notes.data?.length && (
                 <p className="mt-40 text-sm font-mono capitalize tracking-wider font-bold">
                   No notes, click the `Add Note` button to add some

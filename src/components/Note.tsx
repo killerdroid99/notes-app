@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useQueryClient } from "react-query"
 import { trpc } from "../utils/trpc"
+import { motion, AnimatePresence } from "framer-motion"
 import UpdateNoteForm from "./UpdateNoteForm"
 
 interface NoteProps {
@@ -20,7 +21,12 @@ function Note({ Id, title, description, priority }: NoteProps) {
   const [edit, setEdit] = useState(false)
   const [info, setInfo] = useState(false)
   return (
-    <div className="Note p-4 w-full h-auto max-w-2xl bg-zinc-900 grid grid-cols-2 relative">
+    <motion.div
+      initial={{ scaleY: 0, opacity: 0 }}
+      animate={{ scaleY: 1, opacity: 1 }}
+      exit={{ scaleY: 0, opacity: 0 }}
+      className="Note p-4 w-full max-w-2xl bg-zinc-900 grid grid-cols-2 relative"
+    >
       <div className="absolute text-xxs font-bold bg-gray-50/10 py-px top-0 right-[36%] sm:right-[42%] w-fit rounded-b-lg select-none">
         <span
           className="hover:text-red-400 cursor-pointer transition-colors ease-in px-2 border-r border-white border-collapse"
@@ -60,27 +66,40 @@ function Note({ Id, title, description, priority }: NoteProps) {
       >
         More Info
       </button>
-      {info && (
-        <div className="col-span-2 text-slate-400 bg-slate-900/20 p-3 border-l-4 border-b border-r-4 border-teal-900 w-full h-auto mt-2 rounded-b-xl">
-          <p>
-            <span
-              className={`${
-                priority === "high"
-                  ? "text-amber-500"
-                  : priority === "medium"
-                  ? "text-blue-500"
-                  : "text-green-500"
-              } font-bold`}
-            >
-              {priority}
-            </span>{" "}
-            priority
-          </p>
-          <p className="text-white mt-2">
-            {description ? <>{description}</> : <>No description provided 😢</>}
-          </p>
-        </div>
-      )}
+      <AnimatePresence>
+        {info && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "100%", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ stiffness: 50, duration: 0.25 }}
+            key="desc"
+            className="col-span-2 text-slate-400 bg-slate-900/20 p-3 border-l-4 border-b border-r-4 border-teal-900 w-full h-auto mt-2 rounded-b-xl"
+          >
+            <p>
+              <span
+                className={`${
+                  priority === "high"
+                    ? "text-amber-500"
+                    : priority === "medium"
+                    ? "text-blue-500"
+                    : "text-green-500"
+                } font-bold`}
+              >
+                {priority}
+              </span>{" "}
+              priority
+            </p>
+            <p className="text-white mt-2">
+              {description ? (
+                <>{description}</>
+              ) : (
+                <>No description provided 😢</>
+              )}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <UpdateNoteForm
         Id={Id}
         old_title={title}
@@ -89,7 +108,7 @@ function Note({ Id, title, description, priority }: NoteProps) {
         visible={edit}
         setVisible={setEdit}
       />
-    </div>
+    </motion.div>
   )
 }
 
