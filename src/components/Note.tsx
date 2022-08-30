@@ -1,6 +1,7 @@
-import { Disclosure, Transition } from "@headlessui/react"
 import { useState } from "react"
+import { useQueryClient } from "react-query"
 import { trpc } from "../utils/trpc"
+import { motion, AnimatePresence } from "framer-motion"
 import UpdateNoteForm from "./UpdateNoteForm"
 
 interface NoteProps {
@@ -11,11 +12,22 @@ interface NoteProps {
 }
 
 function Note({ Id, title, description, priority }: NoteProps) {
-  const { mutate } = trpc.useMutation(["notes.delete-note"])
+  const qc = useQueryClient()
+  const { mutate, isLoading } = trpc.useMutation(["notes.delete-note"], {
+    onSuccess() {
+      qc.invalidateQueries(["notes.get-notes"])
+    },
+  })
   const [edit, setEdit] = useState(false)
+  const [info, setInfo] = useState(false)
   return (
-    <div className="Note flex group relative">
-      <div className="absolute text-sm font-bold bg-gray-50/10 py-1 top-0 right-[42%] w-fit rounded-bl-lg rounded-br-lg xl:opacity-0 group-hover:opacity-100 transition-opacity ease-in select-none">
+    <motion.div
+      initial={{ scaleY: 0, opacity: 0 }}
+      animate={{ scaleY: 1, opacity: 1 }}
+      exit={{ scaleY: 0, opacity: 0 }}
+      className="Note p-4 w-full max-w-2xl bg-zinc-900 grid grid-cols-2 relative"
+    >
+      <div className="absolute text-xxs font-bold bg-gray-50/10 py-px top-0 right-[36%] sm:right-[42%] w-fit rounded-b-lg select-none">
         <span
           className="hover:text-red-400 cursor-pointer transition-colors ease-in px-2 border-r border-white border-collapse"
           onPointerDown={() => {
@@ -23,9 +35,12 @@ function Note({ Id, title, description, priority }: NoteProps) {
           }}
         >
           DELETE
+          {isLoading && <>DELETING..</>}
         </span>
         <span
-          className="hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse"
+          className={`hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse ${
+            edit && "text-amber-500"
+          }`}
           onPointerDown={() => setEdit(!edit)}
         >
           EDIT
@@ -33,62 +48,67 @@ function Note({ Id, title, description, priority }: NoteProps) {
       </div>
       <div
         className={`absolute h-full block inset-0 w-1
-        ${
-          priority === "high"
-            ? "bg-amber-500"
-            : priority === "medium"
-            ? "bg-blue-500"
-            : "bg-green-500"
-        }    
-      `}
+          ${
+            priority === "high"
+              ? "bg-amber-500"
+              : priority === "medium"
+              ? "bg-blue-500"
+              : "bg-green-500"
+          }
+        `}
       />
-      <h2 className="w-full h-fit">{title}</h2>
-      <div className="flex flex-col items-end relative w-full">
-        <Disclosure>
-          <Disclosure.Button className="">More Info</Disclosure.Button>
-          <Transition
-            enter="transition duration-200 ease-in"
-            enterFrom="transform scale-0 opacity-0"
-            enterTo="transform scale-100 opacity-100"
-            leave="transition duration-200 ease-in"
-            leaveFrom="transform scale-100 opacity-100"
-            leaveTo="transform scale-0 opacity-0"
+      <h2 className="w-fit">{title}</h2>
+      <button
+        className={`w-fit justify-self-end hover:bg-accent/20 rounded-full px-2 ring-[2px] ring-accent/20 hover:ring-accent text-xxs text-right ${
+          info && "bg-accent/20"
+        }`}
+        onPointerDown={() => setInfo(!info)}
+      >
+        More Info
+      </button>
+      <AnimatePresence>
+        {info && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "100%", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ stiffness: 50, duration: 0.25 }}
+            key="desc"
+            className="col-span-2 text-slate-400 bg-slate-900/20 p-3 border-l-4 border-b border-r-4 border-teal-900 w-full h-auto mt-2 rounded-b-xl"
           >
-            <Disclosure.Panel className="text-slate-400 bg-slate-900/20 p-3 border-l-4 border-teal-900 w-[30rem]">
-              <p>
-                <span
-                  className={`${
-                    priority === "high"
-                      ? "text-amber-500"
-                      : priority === "medium"
-                      ? "text-blue-500"
-                      : "text-green-500"
-                  } font-bold`}
-                >
-                  {priority}
-                </span>{" "}
-                priority
-              </p>
-              <p className="text-white">
-                {description ? (
-                  <>{description}</>
-                ) : (
-                  <>No description provided 😢</>
-                )}
-              </p>
-            </Disclosure.Panel>
-          </Transition>
-        </Disclosure>
-        <UpdateNoteForm
-          Id={Id}
-          old_title={title}
-          old_description={description ?? ""}
-          old_priority={priority as string}
-          visible={edit}
-          setVisible={setEdit}
-        />
-      </div>
-    </div>
+            <p>
+              <span
+                className={`${
+                  priority === "high"
+                    ? "text-amber-500"
+                    : priority === "medium"
+                    ? "text-blue-500"
+                    : "text-green-500"
+                } font-bold`}
+              >
+                {priority}
+              </span>{" "}
+              priority
+            </p>
+            <p className="text-white mt-2">
+              {description ? (
+                <>{description}</>
+              ) : (
+                <>No description provided 😢</>
+              )}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <UpdateNoteForm
+        Id={Id}
+        old_title={title}
+        old_description={description ?? ""}
+        old_priority={priority as string}
+        visible={edit}
+        setVisible={setEdit}
+      />
+    </motion.div>
   )
 }
 

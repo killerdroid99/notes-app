@@ -5,7 +5,7 @@ function Navbar() {
   const { data: session } = useSession()
   return (
     <nav className="fixed top-0 w-full bg-zinc-900 bg-opacity-50 backdrop-blur-sm p-2 px-4 lg:px-[15vw] flex items-center justify-between font-qc z-10 text-white">
-      <div className=" text-2xl font-bold tracking-wider">
+      <div className=" text-base font-bold tracking-wider">
         <h1 className="text-accent">
           Notes
           <span className="text-white ml-1">App</span>
@@ -16,7 +16,7 @@ function Navbar() {
       {!session && (
         <div className="space-x-2">
           <button
-            className="bg-primary py-1 sm:text-sm text-xs font-bold capitalize px-3 rounded-md hover:text-accent hover:bg-neutral-800 backdrop-blur-md transition-colors ease-in"
+            className="bg-primary py-1 text-xs font-bold capitalize px-3 rounded-md hover:text-accent hover:bg-neutral-800 backdrop-blur-md transition-colors ease-in"
             onClick={() => signIn()}
           >
             SIGN IN
@@ -38,14 +38,14 @@ function Navbar() {
               />
             )}
             <span
-              className="text-accent sm:text-sm text-xs font-bold"
+              className="text-accent text-xs font-bold"
               title={session.user?.name as string}
             >
               {session.user?.name}
             </span>
           </div>
           <button
-            className="bg-red-500 py-1 sm:text-sm text-xs font-bold capitalize px-3 rounded-md hover:bg-red-7 00 backdrop-blur-md transition-colors ease-in"
+            className="bg-red-500 py-1 text-xs font-bold capitalize px-3 rounded-md hover:bg-red-7 00 backdrop-blur-md transition-colors ease-in"
             onClick={() => signOut()}
           >
             SIGN OUT
