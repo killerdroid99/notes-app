@@ -14,7 +14,7 @@ function AddNoteForm() {
       setinput({
         title: "",
         description: "",
-        priority: "",
+        priority: "low",
       })
       setMinimize(true)
     },
@@ -22,17 +22,17 @@ function AddNoteForm() {
   const [input, setinput] = useState({
     title: "",
     description: "",
-    priority: "",
+    priority: "low",
   })
   const qc = useQueryClient()
 
   return (
     <>
       <button
-        className="fixed z-10 right-[5vw] lg:right-[20vw] top-[6rem] bg-zinc-900 hover:text-accent p-1 rounded w-fit"
+        className="fixed z-10 right-[5vw] lg:right-[20vw] top-[6rem] bg-zinc-900 hover:text-accent font-bold text-xxs px-3 hover:bg-gray-900 py-2 rounded transition-colors ease-in"
         onClick={() => setMinimize(false)}
       >
-        Add Note
+        ADD NOTE
       </button>
       <AnimatePresence initial={false}>
         {!minimize && (
@@ -66,7 +66,6 @@ function AddNoteForm() {
               onClick={() => setMinimize(true)}
             />
             <form
-              // transition={{ duration: 0.25, ease: [0.04, 0.62, 0.23, 0.98] }}
               className="space-y-5 p-2 z-10"
               onSubmit={(e) => e.preventDefault()}
             >
@@ -109,7 +108,6 @@ function AddNoteForm() {
                   }
                   className="bg-neutral-800 focus-visible:ring-1 ring-green-500 outline-none p-1"
                 >
-                  <option>--Select Priority--</option>
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
                   <option value="high">High</option>

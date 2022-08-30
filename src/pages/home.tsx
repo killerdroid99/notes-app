@@ -44,7 +44,7 @@ const SignUp: NextPage = () => {
         ) : (
           <>
             <AddNoteForm />
-            <div className="pt-20 pb-8 flex flex-col w-[80%] gap-8 items-center justify-center">
+            <div className="pt-20 pb-8 flex flex-col w-[95%] gap-8 items-center justify-center">
               <h1 className="text-lg font-qc font-extrabold" id="top">
                 Your notes
               </h1>
@@ -61,7 +61,7 @@ const SignUp: NextPage = () => {
               </AnimatePresence>
               {!notes.data?.length && (
                 <p className="mt-40 text-sm font-mono capitalize tracking-wider font-bold">
-                  No notes, click the `Add Note` button to add some
+                  No notes, click the `ADD NOTE` button to add some
                 </p>
               )}
             </div>

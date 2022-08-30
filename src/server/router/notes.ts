@@ -39,7 +39,7 @@ export const notesRouter = createRouter()
       description: z
         .string()
         .max(256, "Max length for description is 256 characters!"),
-      priority: z.string().min(1, "Select priority!"),
+      priority: z.string(),
     }),
     async resolve({ ctx, input }) {
       if (ctx.session?.user) {
@@ -90,7 +90,7 @@ export const notesRouter = createRouter()
       description: z
         .string()
         .max(256, "Max length for description is 256 characters!"),
-      priority: z.string().min(1, "Select priority!"),
+      priority: z.string(),
     }),
     async resolve({ ctx, input }) {
       if (ctx.session?.user) {

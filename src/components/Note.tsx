@@ -25,7 +25,7 @@ function Note({ Id, title, description, priority }: NoteProps) {
       initial={{ scaleY: 0, opacity: 0 }}
       animate={{ scaleY: 1, opacity: 1 }}
       exit={{ scaleY: 0, opacity: 0 }}
-      className="Note p-4 w-full max-w-2xl bg-zinc-900 grid grid-cols-2 relative"
+      className="Note px-4 py-5 w-full max-w-2xl bg-zinc-900 grid grid-cols-2 relative"
     >
       <div className="absolute text-xxs font-bold bg-gray-50/10 py-px top-0 right-[36%] sm:right-[42%] w-fit rounded-b-lg select-none">
         <span
@@ -34,8 +34,7 @@ function Note({ Id, title, description, priority }: NoteProps) {
             window.confirm("Delete this note?") && mutate({ id: Id })
           }}
         >
-          DELETE
-          {isLoading && <>DELETING..</>}
+          {isLoading ? <>DELETING..</> : <>DELETE</>}
         </span>
         <span
           className={`hover:text-amber-500 cursor-pointer transition-colors ease-in px-2 border-l border-white border-collapse ${
@@ -57,7 +56,7 @@ function Note({ Id, title, description, priority }: NoteProps) {
           }
         `}
       />
-      <h2 className="w-fit">{title}</h2>
+      <h2 className="w-fit text-xs">{title}</h2>
       <button
         className={`w-fit justify-self-end hover:bg-accent/20 rounded-full px-2 ring-[2px] ring-accent/20 hover:ring-accent text-xxs text-right ${
           info && "bg-accent/20"
